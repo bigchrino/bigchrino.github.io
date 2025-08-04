@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Les provinces</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Listes des differentes provinces</h1>
+      <p>Choisissez votre province</p>
+      <div class="search-bar">
+        <input
+          type="text"
+          id="search"
+          placeholder="Rechercher une province..."
+        />
+        <button type="button" class="search-button">🔍</button>
+      </div>
+      <ul id="list">
+        <li><a href="ecoles.html">Bas-Uele</a></li>
+        <li><a href="">Equateur</a></li>
+        <li><a href="">Haut-Katanga</a></li>
+        <li><a href="">Haut-Lomami</a></li>
+        <li><a href="">Haut-Uele</a></li>
+        <li><a href="">Ituri</a></li>
+        <li><a href="">Kasai</a></li>
+        <li><a href="">Kasai-Central</a></li>
+        <li><a href="">Kasai-Oriental</a></li>
+        <li><a href="ecoles.html">Kinshasa</a></li>
+        <li><a href="">Kongo Central</a></li>
+        <li><a href="">Kwango</a></li>
+        <li><a href="">kwilu</a></li>
+        <li><a href="">Lomami</a></li>
+        <li><a href="">Lualaba</a></li>
+        <li><a href="">Mai-Ndombe</a></li>
+        <li><a href="">Maniema</a></li>
+        <li><a href="">Mongala</a></li>
+        <li><a href="">Nord-Kivu</a></li>
+        <li><a href="">Nord-Ubangi</a></li>
+        <li><a href="">Sankuru</a></li>
+        <li><a href="">Sud-Kivu</a></li>
+        <li><a href="">Sud-Ubangi</a></li>
+        <li><a href="">Tanganyika</a></li>
+        <li><a href="">Tshopo</a></li>
+        <li><a href="">Tshuapa</a></li>
+      </ul>
+      <script>
+        const searchInput = document.getElementById("search");
+        const items = document.querySelectorAll("#list li");
+
+        searchInput.addEventListener("input", () => {
+          const value = searchInput.value.toLowerCase();
+          items.forEach((item) => {
+            item.style.display = item.textContent.toLowerCase().includes(value)
+              ? ""
+              : "none";
+          });
+        });
+      </script>
+      <p><a href="accueil.html">⬅ Retour</a></p>
+    </div>
+  </body>
+</html>

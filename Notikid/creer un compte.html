@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Créer un compte - Notikid</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <section class="login-box">
+        <h1>Créer un compte parent</h1>
+        <form action="register.php" method="POST">
+          <input
+            type="text"
+            name="fullname"
+            placeholder="Nom complet"
+            required
+          />
+
+          <input
+            type="email"
+            name="email"
+            placeholder="Adresse e-mail"
+            required
+          />
+          <br />
+          <input
+            type="tel"
+            name="phone"
+            placeholder="Numero de téléphone"
+          /><br />
+          <input
+            type="password"
+            name="password"
+            placeholder="Mot de passe"
+            required
+          />
+
+          <input
+            type="password"
+            name="confirm_password"
+            placeholder="Confirmer le mot de passe"
+            required
+          />
+          <br />
+          <button class="button-create" type="submit">Créer un compte</button>
+        </form>
+        <br />
+      </section>
+      <section class="register-link">
+        <p>
+          Vous vous etes déja inscrit ?
+          <a href="connexion.html">Se connecter</a>
+        </p>
+      </section>
+    </div>
+  </body>
+</html>

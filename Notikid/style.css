@@ -1,0 +1,244 @@
+/* RESET DE BASE */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* BODY GÉNÉRAL avec animation */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f7fa;
+    color: #333;
+    padding: 2%;
+    line-height: 1.6;
+
+    /* Animation */
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInSlide 0.8s ease-out forwards;
+}
+
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #2680eb;
+    padding: 1em 2em;
+    color: white;
+    flex-wrap: wrap;
+}
+
+.nav-left a,.nav-right a {
+    color: white;
+    text-decoration: none;
+    margin: 0 0.7em;
+    font-size: 1em;
+}
+
+.nav-left a:hover, .nav-right a:hover {
+    text-decoration: none;
+    color: #2d3436;
+}
+
+.class:hover{
+    text-decoration: none;
+    color: #2d3436;
+}
+/* @media (max-width: 768px) {
+    .nav-left, .nav-right{
+        display: none;
+    }
+
+} */
+.container {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 5px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.button{
+    width: 100%;
+    background: #2680eb;
+    color: white;
+    font-size: 1em;
+    padding: 0.75em;
+    border: none;
+    border-radius: 10px;
+    margin: 0.5em 0;
+    text-align: center;
+}
+.button:hover {
+    background: #1a5bb8;
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+}
+
+.button:active {
+    background: #1a5bb8;
+    transform: scale(0.98);
+}
+
+.button-create{
+    display: inline-block;
+    margin-top: 1em;
+    padding: 0.5em 1em;
+    background-color: #2680eb;
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+}
+.button-create:hover{
+    background-color: #1a5bb8;
+    color: white;
+    text-decoration: none;
+}
+
+/* Animation keyframes */
+@keyframes fadeInSlide {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* TITRES */
+h1, h2, h3 {
+    margin-bottom: 0.6em;
+    color: #2c3e50;
+    font-size: 1.5em;
+}
+
+/* LIENS */
+a {
+    color: #3498db;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+a:hover {
+    color: #1d6fa5;
+    text-decoration: underline;
+}
+
+/* SECTIONS ET CARTES */
+section {
+    background-color: #ffffff;
+    padding: 5%;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    margin-top: 2em;
+    width: 100%;
+    max-width: 100%;
+    text-align: center;
+}
+
+/* COULEURS POUR LES NOTES */
+.rouge {
+    color: #e74c3c;
+    font-weight: bold;
+}
+.noir {
+    color: #2d3436;
+}
+.vert {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+/* LISTES */
+ul {
+    list-style: none;
+    margin-top: 1em;
+    padding-left: 1em;
+}
+
+ul li {
+    margin: 0.8em 0;
+}
+
+/* BOUTONS ET LIENS RETOUR */
+p a {
+    display: inline-block;
+    margin-top: 1em;
+    padding: 0.5em 1em;
+    background-color: #2680eb;
+    color: #fff;
+    border-radius: 5px;
+}
+
+p a:hover {
+    background-color: #1a5bb8;
+    color: white;
+    text-decoration: none;
+}
+
+/* BARRE DE RECHERCHE */
+.search-bar {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    max-width: 300px;
+    width: 100%;
+    height: 40px;
+    margin-left: auto;
+    margin-right: 0;
+    margin-top: 10px;
+}
+
+.search-bar input[type="text"] {
+    border: none;
+    padding: 10px;
+    outline: none;
+    flex: 1;
+    font-size: 1em;
+    border-radius: 20px 0 0 20px;
+    min-width: 0;
+}
+
+.search-button {
+    background-color: #2680eb;
+    border: none;
+    color: white;
+    padding: 0 1em;
+    font-size: 1em;
+    cursor: pointer;
+    height: 100%;
+    border-radius: 0 20px 20px 0;
+    transition: background-color 0.3s;
+}
+
+.search-button:hover {
+    background-color: #1a5bb8;
+}
+
+/* MEDIA QUERY POUR PETITS ÉCRANS */
+@media (max-width: 768px) {
+    .search-bar {
+        width: 100%;
+        max-width: 100%;
+        margin-top: 10px;
+        margin-left: 0;
+    }
+
+    .search-bar input[type="text"] {
+        font-size: 0.9em;
+        padding: 0.8em;
+    }
+
+    .search-button {
+        padding: 0 0.8em;
+        font-size: 0.9em;
+    }
+}
