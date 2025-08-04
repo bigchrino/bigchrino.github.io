@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Classes - Année 2024 -2025</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Année Scolaire 2024 -2025</h1>
+      <h2>Choisissez une classe</h2>
+      <div class="search-bar">
+        <input type="text" id="search" placeholder="Rechercher une classe..." />
+        <button type="button" class="search-button">🔍</button>
+      </div>
+      <ul id="list">
+        <li><a href="ecole1 1ere primaire 2024.html">1 ere primaire</a></li>
+        <li><a href="ecole1 2eme primaire 2024.html">2e primaire</a></li>
+        <li><a href="ecole1 3eme primaire 2024">3e primaire</a></li>
+        <li><a href="ecole1 4eme primaire 2024">4e primaire</a></li>
+        <li><a href="ecole1 5eme primaire 2024">5e primaire</a></li>
+        <li><a href="ecole1 6eme primaire 2024">6e primaire</a></li>
+      </ul>
+
+      <script>
+        const searchInput = document.getElementById("search");
+        const items = document.querySelectorAll("#list li");
+
+        searchInput.addEventListener("input", () => {
+          const value = searchInput.value.toLowerCase();
+          items.forEach((item) => {
+            item.style.display = item.textContent.toLowerCase().includes(value)
+              ? ""
+              : "none";
+          });
+        });
+      </script>
+      <p><a href="annees.html">⬅ Retour</a></p>
+    </div>
+  </body>
+</html>

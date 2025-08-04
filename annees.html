@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Années scolaires - Notikid</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Choisissez une année scolaire</h1>
+      <div class="search-bar">
+        <input type="text" id="search" placeholder="Rechercher une année..." />
+        <button type="button" class="search-button">🔍</button>
+      </div>
+      <ul id="list">
+        <li><a href="optionsecole12024.html">Année scolaire 2024 - 2025</a></li>
+        <li><a href="optionsecole12025.html">Année scolaire 2025 - 2026</a></li>
+      </ul>
+
+      <script>
+        const searchInput = document.getElementById("search");
+        const items = document.querySelectorAll("#list li");
+
+        searchInput.addEventListener("input", () => {
+          const value = searchInput.value.toLowerCase();
+          items.forEach((item) => {
+            item.style.display = item.textContent.toLowerCase().includes(value)
+              ? ""
+              : "none";
+          });
+        });
+      </script>
+      <p><a href="ecole1.html">⬅ Retour</a></p>
+    </div>
+  </body>
+</html>

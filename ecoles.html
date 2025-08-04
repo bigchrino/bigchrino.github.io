@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ecoles - Notikid</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Choisissez une école</h1>
+      <div class="search-bar">
+        <input type="text" id="search" placeholder="Rechercher une école..." />
+        <button type="button" class="search-button">🔍</button>
+      </div>
+      <ul id="list">
+        <li><a href="ecole1.html">Ecole 1</a></li>
+        <li><a href="ecole2.html">Ecole 2</a></li>
+        <li><a href="ecole3.html">Ecole 3</a></li>
+      </ul>
+      <script>
+        const searchInput = document.getElementById("search");
+        const items = document.querySelectorAll("#list li");
+
+        searchInput.addEventListener("input", () => {
+          const value = searchInput.value.toLowerCase();
+          items.forEach((item) => {
+            item.style.display = item.textContent.toLowerCase().includes(value)
+              ? ""
+              : "none";
+          });
+        });
+      </script>
+      <p><a href="provinces.html">⬅ Retour</a></p>
+    </div>
+  </body>
+</html>
