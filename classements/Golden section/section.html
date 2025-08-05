@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../style.css" />
+    <title>Golden section</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Golden section</h1>
+      <p>Vous trouverez ici le classement des meilleurs écoles</p>
+      <div class="search-bar">
+        <input type="text" id="search" placeholder="Rechercher une option..." />
+        <button type="button" class="search-button">🔍</button>
+      </div>
+      <ul id="list">
+        <li><a href="./eb.html">Education de base</a></li>
+        <li><a href="./sc.html">Scientifique</a></li>
+        <li><a href="./lt.html">Litteraire</a></li>
+        <li>
+          <a href="./comgestion.html">Commerciale administrative et gestion</a>
+        </li>
+        <li><a href="./cominfo.html">Commerciale informatique</a></li>
+        <li><a href="./agrigen.html">Agriculture générale</a></li>
+        <li><a href="cimiind.html">Chimie industrielle</a></li>
+        <li><a href="./const.html">Construction</a></li>
+        <li>
+          <a href="./coupe.html">Coupe et couture</a>
+        </li>
+        <li><a href="./elec.html">Electronique</a></li>
+        <li><a href="./forest.html">Foresterie</a></li>
+        <li><a href="./mecgen.html">Mecanique générale</a></li>
+        <li><a href="./mecauto.html">Mecanique auto</a></li>
+        <li><a href="./nutrition.html">Nutrition</a></li>
+        <li><a href="./peche.html">Peche et naviguation</a></li>
+        <li><a href="./peda.html">Pedagogie générale</a></li>
+        <li><a href="./secre.html">Secretariat</a></li>
+        <li><a href="./secreinfo.html">Secretariat informatique</a></li>
+        <li><a href="./sociale.html">Sociale</a></li>
+        <li><a href="./vet.html">Veterinaire</a></li>
+      </ul>
+      <script>
+        const searchInput = document.getElementById("search");
+        const items = document.querySelectorAll("#list li");
+
+        searchInput.addEventListener("input", () => {
+          const value = searchInput.value.toLowerCase();
+          items.forEach((item) => {
+            item.style.display = item.textContent.toLowerCase().includes(value)
+              ? ""
+              : "none";
+          });
+        });
+      </script>
+
+      <p><a href="../best.html">⬅ Retour</a></p>
+    </div>
+  </body>
+</html>

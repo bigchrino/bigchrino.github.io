@@ -36,6 +36,10 @@ body {
     font-size: 1em;
 }
 
+p{
+    text-align: center;
+}
+
 .nav-left a:hover, .nav-right a:hover {
     text-decoration: none;
     color: #2d3436;
