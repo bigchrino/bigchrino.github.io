@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notikid - Plateforme éducative</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --success: #4cc9f0;
+            --warning: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --body-bg: #f5f7fa;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --border-color: #dee2e6;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        .dark-mode {
+            --body-bg: #121212;
+            --card-bg: #1e1e1e;
+            --text-color: #e0e0e0;
+            --border-color: #2d2d2d;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: var(--transition);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--body-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 0;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Navigation */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 1rem 2rem;
+            color: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border-radius: 8px;
+            color: var(--primary);
+            font-weight: 800;
+            font-size: 18px;
+        }
+
+        /* Hamburger Menu */
+        .hamburger-container {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .hamburger-menu {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            position: relative;
+            z-index: 1100;
+        }
+
+        .hamburger-bar {
+            width: 30px;
+            height: 4px;
+            background-color: white;
+            margin: 3px 0;
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        /* Animation when active */
+        .hamburger-menu.active .hamburger-bar:nth-child(1) {
+            transform: translateY(10px) rotate(45deg);
+        }
+
+        .hamburger-menu.active .hamburger-bar:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-menu.active .hamburger-bar:nth-child(3) {
+            transform: translateY(-10px) rotate(-45deg);
+        }
+
+        /* Menu overlay */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .menu-content {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: var(--shadow);
+            transform: translateY(-20px);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .close-menu {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-color);
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .close-menu:hover {
+            background: var(--body-bg);
+        }
+
+        .menu-overlay.active .menu-content {
+            transform: translateY(0);
+        }
+
+        .menu-list {
+            list-style: none;
+        }
+
+        .menu-item {
+            margin: 1rem 0;
+        }
+
+        .menu-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--body-bg);
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .menu-link:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .menu-link i {
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: var(--transition);
+            margin-left: 1rem;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(30deg);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem 0;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--success));
+            border-radius: 2px;
+        }
+
+        /* Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-text {
+            margin-bottom: 1rem;
+            color: var(--gray);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            justify-content: center;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+
+        /* Search */
+        .search-container {
+            display: flex;
+            margin-bottom: 2rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 0.75rem 1.5rem;
+            border: 2px solid var(--border-color);
+            border-radius: 50px 0 0 50px;
+            font-size: 1rem;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+
+        .search-btn {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 0 50px 50px 0;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .search-btn:hover {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+        }
+
+        /* Lists */
+        .list-group {
+            list-style: none;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .list-item {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: var(--transition);
+            background-color: var(--card-bg);
+        }
+
+        .list-item:last-child {
+            border-bottom: none;
+        }
+
+        .list-item:hover {
+            background-color: rgba(67, 97, 238, 0.05);
+        }
+
+        .list-item a {
+            text-decoration: none;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex: 1;
+        }
+
+        .list-item a:hover {
+            color: var(--primary);
+        }
+
+        /* Content sections */
+        .content-section {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        /* Two column layout for provinces */
+        .two-columns {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Notes colors */
+        .note-excellent {
+            color: #27ae60;
+            font-weight: 600;
+        }
+
+        .note-good {
+            color: #2ecc71;
+        }
+
+        .note-average {
+            color: #f39c12;
+        }
+
+        .note-poor {
+            color: #e74c3c;
+            font-weight: 600;
+        }
+
+        /* Back link */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            color: var(--secondary);
+            gap: 0.75rem;
+        }
+
+        /* Page content */
+        .page-content {
+            display: none;
+        }
+
+        .page-content.active {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .card-grid, .two-columns {
+                grid-template-columns: 1fr;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate {
+            animation: slideIn 0.5s ease-out forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="hamburger-container">
+            <div class="hamburger-menu" id="hamburgerMenu">
+                <div class="hamburger-bar"></div>
+                <div class="hamburger-bar"></div>
+                <div class="hamburger-bar"></div>
+            </div>
+        </div>
+
+        <div class="logo-container">
+            <a href="#" class="logo" data-page="accueil">
+                <div class="logo-icon">N</div>
+                <span>Neuro-Stud</span>
+            </a>
+        </div>
+
+        <div>
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Menu Overlay -->
+    <div class="menu-overlay" id="menuOverlay">
+        <div class="menu-content">
+            <button class="close-menu" id="closeMenu">×</button>
+            <ul class="menu-list">
+                <li class="menu-item">
+                    <a href="#" class="menu-link" data-page="accueil">
+                        <i class="fas fa-home"></i>
+                        <span>Accueil</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link" data-page="avis">
+                        <i class="fas fa-comment-dots"></i>
+                        <span>Avis</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link" data-page="activites">
+                        <i class="fas fa-tasks"></i>
+                        <span>Activités</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link" data-page="classement">
+                        <i class="fas fa-trophy"></i>
+                        <span>Classements</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link" data-page="notifications">
+                        <i class="fas fa-bell"></i>
+                        <span>Notifications</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link" data-page="provinces">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <span>Provinces</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link" data-page="deconnexion">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Déconnexion</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Page: Accueil -->
+        <div class="page-content active" id="accueil">
+            <div class="main-content">
+                <h1 class="page-title animate">Bienvenue sur Neuro-Stud</h1>
+
+                <div class="content-section animate delay-1">
+                    <p style="text-align: center; margin-bottom: 2rem;">Vous êtes connecté avec succès.</p>
+
+                    <div style="text-align: center; margin-bottom: 1rem;">
+                        <a href="#" class="btn" data-page="provinces">
+                            <i class="fas fa-map-marked-alt"></i>
+                            Accéder aux différentes provinces
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <h2 style="margin-bottom: 1.5rem;" class="animate delay-2">Accès rapide</h2>
+
+                <div class="card-grid">
+                    <div class="card animate delay-2">
+                        <div class="card-header">
+                            <i class="fas fa-school"></i>
+                            <h3 class="card-title">Écoles</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Accédez aux informations de l'école de votre enfant.</p>
+                            <a href="#" class="btn btn-sm" data-page="ecoles">
+                                <i class="fas fa-arrow-right"></i>
+                                Voir les écoles
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="card animate delay-3">
+                        <div class="card-header">
+                            <i class="fas fa-chart-line"></i>
+                            <h3 class="card-title">Résultats</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Consultez les résultats et progrès de votre enfant.</p>
+                            <a href="#" class="btn btn-sm" data-page="resultats">
+                                <i class="fas fa-arrow-right"></i>
+                                Voir les résultats
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="card animate delay-4">
+                        <div class="card-header">
+                            <i class="fas fa-calendar-check"></i>
+                            <h3 class="card-title">Activités</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Découvrez les activités scolaires et extrascolaires.</p>
+                            <a href="#" class="btn btn-sm" data-page="activites">
+                                <i class="fas fa-arrow-right"></i>
+                                Voir les activités
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page: Avis -->
+        <div class="page-content" id="avis">
+            <div class="main-content">
+                <h1 class="page-title animate">Avis</h1>
+
+                <div class="content-section animate delay-1">
+                    <div class="card-grid">
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-poll"></i>
+                                <h3 class="card-title">Sondages</h3>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">Participez aux sondages de l'établissement.</p>
+                                <a href="#" class="btn btn-sm">
+                                    <i class="fas fa-arrow-right"></i>
+                                    Voir les sondages
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-comment"></i>
+                                <h3 class="card-title">Je m'exprime</h3>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">Exprimez-vous sur différents sujets.</p>
+                                <a href="#" class="btn btn-sm">
+                                    <i class="fas fa-arrow-right"></i>
+                                    Donner mon avis
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-exclamation-circle"></i>
+                                <h3 class="card-title">Dénonciations</h3>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">Signalez des problèmes en toute confidentialité.</p>
+                                <a href="#" class="btn btn-sm">
+                                    <i class="fas fa-arrow-right"></i>
+                                    Faire une dénonciation
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <a href="#" class="back-link" data-page="accueil">
+                            <i class="fas fa-arrow-left"></i>
+                            Retour à l'accueil
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page: Activités -->
+        <div class="page-content" id="activites">
+            <div class="main-content">
+                <h1 class="page-title animate">Activités</h1>
+
+                <div class="content-section animate delay-1">
+                    <div class="card-grid">
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-tasks"></i>
+                                <h3 class="card-title">Tâches hebdomadaires</h3>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">Consultez les tâches à effectuer cette semaine.</p>
+                                <a href="#" class="btn btn-sm">
+                                    <i class="fas fa-arrow-right"></i>
+                                    Voir les tâches
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-book"></i>
+                                <h3 class="card-title">Exercices</h3>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">Accédez aux exercices à faire à la maison.</p>
+                                <a href="#" class="btn btn-sm">
+                                    <i class="fas fa-arrow-right"></i>
+                                    Voir les exercices
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-bolt"></i>
+                                <h3 class="card-title">Flash school</h3>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">Découvrez les activités Flash school.</p>
+                                <a href="#" class="btn btn-sm">
+                                    <i class="fas fa-arrow-right"></i>
+                                    Voir Flash school
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-lightbulb"></i>
+                                <h3 class="card-title">I know</h3>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">Testez vos connaissances avec I know.</p>
+                                <a href="#" class="btn btn-sm">
+                                    <i class="fas fa-arrow-right"></i>
+                                    Participer
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <a href="#" class="back-link" data-page="accueil">
+                            <i class="fas fa-arrow-left"></i>
+                            Retour à l'accueil
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page: Classement -->
+        <div class="page-content" id="classement">
+            <div class="main-content">
+                <h1 class="page-title animate">Classements</h1>
+
+                <div class="content-section animate delay-1">
+                    <div class="card-grid">
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-laptop-code"></i>
+                                <h3 class="card-title">Geeks</h3>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">Classement des élèves en informatique.</p>
+                                <a href="#" class="btn btn-sm">
+                                    <i class="fas fa-arrow-right"></i>
+                                    Voir le classement
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-graduation-cap"></i>
+                                <h3 class="card-title">Experts</h3>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">Classement des meilleurs élèves.</p>
+                                <a href="#" class="btn btn-sm">
+                                    <i class="fas fa-arrow-right"></i>
+                                    Voir le classement
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-school"></i>
+                                <h3 class="card-title">Best Schools</h3>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">Classement des meilleures écoles.</p>
+                                <a href="#" class="btn btn-sm">
+                                    <i class="fas fa-arrow-right"></i>
+                                    Voir le classement
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <a href="#" class="back-link" data-page="accueil">
+                            <i class="fas fa-arrow-left"></i>
+                            Retour à l'accueil
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page: Notifications -->
+        <div class="page-content" id="notifications">
+            <div class="main-content">
+                <h1 class="page-title animate">Notifications</h1>
+
+                <div class="content-section animate delay-1">
+                    <div class="card-grid">
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-user-graduate"></i>
+                                <h3 class="card-title">Élève</h3>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">Notifications concernant votre enfant.</p>
+                                <a href="#" class="btn btn-sm">
+                                    <i class="fas fa-arrow-right"></i>
+                                    Voir les notifications
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-school"></i>
+                                <h3 class="card-title">Établissement</h3>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">Notifications de l'établissement scolaire.</p>
+                                <a href="#" class="btn btn-sm">
+                                    <i class="fas fa-arrow-right"></i>
+                                    Voir les notifications
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-info-circle"></i>
+                                <h3 class="card-title">Autres</h3>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">Autres types de notifications.</p>
+                                <a href="#" class="btn btn-sm">
+                                    <i class="fas fa-arrow-right"></i>
+                                    Voir les notifications
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <a href="#" class="back-link" data-page="accueil">
+                            <i class="fas fa-arrow-left"></i>
+                            Retour à l'accueil
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page: Provinces -->
+        <div class="page-content" id="provinces">
+            <div class="main-content">
+                <h1 class="page-title animate">Liste des provinces</h1>
+
+                <div class="content-section animate delay-1">
+                    <p style="text-align: center; margin-bottom: 2rem;">Choisissez votre province</p>
+
+                    <div class="search-container">
+                        <input type="text" class="search-input" placeholder="Rechercher une province...">
+                        <button class="search-btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+
+                    <div class="two-columns">
+                        <ul class="list-group">
+                            <li class="list-item"><a href="#" data-page="ecoles"><i class="fas fa-map-marker-alt"></i> Bas-Uele</a></li>
+                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Equateur</a></li>
+                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Haut-Katanga</a></li>
+                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Haut-Lomami</a></li>
+                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Haut-Uele</a></li>
+                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Ituri</a></li>
+                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Kasai</a></li>
+                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Kasai-Central</a></li>
+                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Kasai-Oriental</a></li>
+                            <li class="list-item"><a href="#" data-page="ecoles"><i class="fas fa-map-marker-alt"></i> Kinshasa</a></li>
+                        </ul>
+
+                        <ul class="list-group">
+                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Kongo Central</a></li>
+                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Kwango</a></li>
+                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Kwilu</a></li>
+                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Lomami</a></li>
+                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Lualaba</a></li>
+                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Mai-Ndombe</a></li>
+                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Maniema</a></li>
+                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Mongala</a></li>
+                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Nord-Kivu</a></li>
+                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Nord-Ubangi</a></li>
+                        </ul>
+
+                        <ul class="list-group">
+                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Sankuru</a></li>
+                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Sud-Kivu</a></li>
+                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Sud-Ubangi</a></li>
+                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Tanganyika</a></li>
+                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Tshopo</a></li>
+                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Tshuapa</a></li>
+                        </ul>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <a href="#" class="back-link" data-page="accueil">
+                            <i class="fas fa-arrow-left"></i>
+                            Retour à l'accueil
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page: Écoles -->
+        <div class="page-content" id="ecoles">
+            <div class="main-content">
+                <h1 class="page-title animate">Choisissez une école</h1>
+
+                <div class="content-section animate delay-1">
+                    <div class="search-container">
+                        <input type="text" class="search-input" placeholder="Rechercher une école...">
+                        <button class="search-btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+
+                    <ul class="list-group">
+                        <li class="list-item"><a href="#" data-page="ecole1"><i class="fas fa-school"></i> École 1</a></li>
+                        <li class="list-item"><a href="#"><i class="fas fa-school"></i> École 2</a></li>
+                        <li class="list-item"><a href="#"><i class="fas fa-school"></i> École 3</a></li>
+                    </ul>
+
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <a href="#" class="back-link" data-page="provinces">
+                            <i class="fas fa-arrow-left"></i>
+                            Retour aux provinces
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page: École 1 -->
+        <div class="page-content" id="ecole1">
+            <div class="main-content">
+                <h1 class="page-title animate">École 1</h1>
+
+                <div class="content-section animate delay-1">
+                    <h2>Mot de bienvenue</h2>
+                    <p>
+                        Bienvenue à l'école 1, un établissement dédié à l'excellence et au
+                        développement harmonieux de chaque élève. Nous sommes heureux de vous
+                        accueillir sur notre plateforme digitale.
+                    </p>
+
+                    <h2 style="margin-top: 2rem;">Communiqués récents</h2>
+                    <ul style="list-style-type: none;">
+                        <li style="margin: 1rem 0; padding: 1rem; background: var(--body-bg); border-radius: 8px;">
+                            <i class="fas fa-bullhorn" style="color: var(--primary); margin-right: 0.5rem;"></i>
+                            Rentrée scolaire fixée au 2 septembre 2025
+                        </li>
+                        <li style="margin: 1rem 0; padding: 1rem; background: var(--body-bg); border-radius: 8px;">
+                            <i class="fas fa-bullhorn" style="color: var(--primary); margin-right: 0.5rem;"></i>
+                            Réunion parents-professeurs le 15 octobre 2025
+                        </li>
+                    </ul>
+
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <a href="#" class="btn" data-page="annees">
+                            <i class="fas fa-calendar-alt"></i>
+                            Accéder à l'année scolaire
+                        </a>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <a href="#" class="back-link" data-page="ecoles">
+                            <i class="fas fa-arrow-left"></i>
+                            Retour aux écoles
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page: Résultats -->
+        <div class="page-content" id="resultats">
+            <div class="main-content">
+                <h1 class="page-title animate">Résultats</h1>
+
+                <div class="content-section animate delay-1">
+                    <p style="text-align: center; margin-bottom: 2rem;">Sélectionnez un élève pour voir ses résultats</p>
+
+                    <div class="search-container">
+                        <input type="text" class="search-input" placeholder="Rechercher un élève...">
+                        <button class="search-btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+
+                    <ul class="list-group">
+                        <li class="list-item"><a href="#"><i class="fas fa-user-graduate"></i> Akoua Mariam</a></li>
+                        <li class="list-item"><a href="#"><i class="fas fa-user-graduate"></i> Diallo Mamadou</a></li>
+                        <li class="list-item"><a href="#"><i class="fas fa-user-graduate"></i> Fatou Fatou</a></li>
+                        <li class="list-item"><a href="#"><i class="fas fa-user-graduate"></i> Kone Awa</a></li>
+                        <li class="list-item"><a href="#"><i class="fas fa-user-graduate"></i> Ouattara Mike</a></li>
+                    </ul>
+
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <a href="#" class="back-link" data-page="accueil">
+                            <i class="fas fa-arrow-left"></i>
+                            Retour à l'accueil
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page: Déconnexion -->
+        <div class="page-content" id="deconnexion">
+            <div class="main-content">
+                <h1 class="page-title animate">Déconnexion</h1>
+
+                <div class="content-section animate delay-1" style="text-align: center;">
+                    <p style="margin-bottom: 2rem;">Voulez-vous vraiment vous déconnecter ?</p>
+
+                    <div style="display: flex; justify-content: center; gap: 1rem;">
+                        <a href="#" class="btn btn-outline" data-page="accueil">
+                            <i class="fas fa-times"></i>
+                            Annuler
+                        </a>
+                        <a href="#" class="btn">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Déconnexion
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme Toggle Functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('i');
+
+        // Check for saved theme preference or respect OS preference
+        if (localStorage.getItem('theme') === 'dark' || 
+            (window.matchMedia('(prefers-color-scheme: dark)').matches && !localStorage.getItem('theme'))) {
+            document.body.classList.add('dark-mode');
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+
+            if (document.body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                localStorage.setItem('theme', 'light');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+        });
+
+        // Hamburger Menu Functionality
+        const hamburgerMenu = document.getElementById('hamburgerMenu');
+        const menuOverlay = document.getElementById('menuOverlay');
+        const closeMenu = document.getElementById('closeMenu');
+
+        hamburgerMenu.addEventListener('click', () => {
+            hamburgerMenu.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+
+            // Prevent body scrolling when menu is open
+            if (menuOverlay.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Close menu when clicking on X button
+        closeMenu.addEventListener('click', () => {
+            hamburgerMenu.classList.remove('active');
+            menuOverlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        // Close menu when clicking on overlay (outside menu content)
+        menuOverlay.addEventListener('click', (e) => {
+            if (e.target === menuOverlay) {
+                hamburgerMenu.classList.remove('active');
+                menuOverlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Page Navigation
+        document.querySelectorAll('[data-page]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pageId = link.getAttribute('data-page');
+
+                // Hide all pages
+                document.querySelectorAll('.page-content').forEach(page => {
+                    page.classList.remove('active');
+                });
+
+                // Show selected page
+                document.getElementById(pageId).classList.add('active');
+
+                // Close menu if open
+                hamburgerMenu.classList.remove('active');
+                menuOverlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
+
+                // Scroll to top
+                window.scrollTo(0, 0);
+            });
+        });
+
+        // Animation on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.animate');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.visibility = 'visible';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            animatedElements.forEach(el => {
+                el.style.visibility = 'hidden';
+                observer.observe(el);
+            });
+
+            // Search functionality
+            const searchInputs = document.querySelectorAll('.search-input');
+            const searchButtons = document.querySelectorAll('.search-btn');
+
+            searchInputs.forEach((input, index) => {
+                input.addEventListener('input', () => {
+                    const value = input.value.toLowerCase();
+                    const listItems = input.closest('.content-section').querySelectorAll('.list-item');
+
+                    listItems.forEach(item => {
+                        const text = item.textContent.toLowerCase();
+                        if (text.includes(value)) {
+                            item.style.display = 'flex';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+
+                // Add event listener to corresponding search button
+                if (searchButtons[index]) {
+                    searchButtons[index].addEventListener('click', () => {
+                        input.focus();
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
