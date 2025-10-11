@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notikid - Plateforme éducative</title>
+    <title>Neuro-Stud - Plateforme éducative</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -34,7 +34,6 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            transition: var(--transition);
         }
 
         body {
@@ -495,21 +494,6 @@
             display: block;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .navbar {
-                padding: 1rem;
-            }
-            
-            .card-grid, .two-columns {
-                grid-template-columns: 1fr;
-            }
-            
-            .logo {
-                font-size: 1.5rem;
-            }
-        }
-
         /* Animations */
         @keyframes slideIn {
             from {
@@ -530,6 +514,400 @@
         .delay-2 { animation-delay: 0.2s; }
         .delay-3 { animation-delay: 0.3s; }
         .delay-4 { animation-delay: 0.4s; }
+
+        /* Système d'authentification */
+        .auth-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+        }
+        
+        .auth-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .auth-content {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 0 auto;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        
+        .auth-overlay.active .auth-content {
+            transform: scale(1);
+        }
+        
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .auth-tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: var(--transition);
+        }
+        
+        .auth-tab.active {
+            border-bottom: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .auth-form {
+            display: none;
+        }
+        
+        .auth-form.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            color: var(--text-color);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            background: var(--body-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            color: var(--text-color);
+            font-size: 0.9rem;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 10px;
+            background: var(--body-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            color: var(--text-color);
+            font-size: 0.9rem;
+        }
+        
+        .form-select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .form-checkbox {
+            margin-right: 8px;
+        }
+        
+        .form-checkbox-label {
+            font-size: 0.8rem;
+            color: var(--text-color);
+        }
+        
+        .form-link {
+            color: var(--primary);
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        
+        .form-footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-color);
+        }
+        
+        .auth-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1rem;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .auth-btn:hover {
+            background: var(--secondary);
+        }
+        
+        .auth-btn:disabled {
+            background: var(--gray);
+            cursor: not-allowed;
+        }
+        
+        .add-child-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 12px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+        
+        .child-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--body-bg);
+            padding: 8px;
+            border-radius: 5px;
+            margin-bottom: 8px;
+        }
+        
+        .child-id {
+            font-size: 0.9rem;
+        }
+        
+        .remove-child {
+            color: var(--warning);
+            cursor: pointer;
+        }
+        
+        .account-type-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+        
+        .badge-student {
+            background: var(--success);
+            color: white;
+        }
+        
+        .badge-parent {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .badge-visitor {
+            background: var(--warning);
+            color: white;
+        }
+        
+        .badge-school {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .user-menu {
+            position: relative;
+        }
+        
+        .user-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: var(--transition);
+        }
+        
+        .user-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .user-btn i {
+            margin-right: 5px;
+        }
+        
+        .user-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            min-width: 180px;
+            margin-top: 5px;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+        
+        .user-dropdown.show {
+            display: block;
+        }
+        
+        .user-dropdown-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--text-color);
+        }
+        
+        .user-dropdown-item:hover {
+            background: var(--body-bg);
+        }
+        
+        .user-dropdown-divider {
+            height: 1px;
+            background: var(--border-color);
+            margin: 5px 0;
+        }
+        
+        /* Nouveau design pour le bouton de connexion */
+        .main-login-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+        }
+        
+        .main-login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(67, 97, 238, 0.4);
+        }
+        
+        .main-login-btn i {
+            font-size: 1.1rem;
+        }
+        
+        /* Amélioration de la navigation */
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+            
+            .card-grid, .two-columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo {
+                font-size: 1.5rem;
+            }
+            
+            .auth-content {
+                width: 95%;
+                padding: 1.5rem;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            .content-section {
+                padding: 1.5rem;
+            }
+            
+            .main-login-btn {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar {
+                flex-wrap: wrap;
+            }
+            
+            .logo-container {
+                order: 1;
+                flex: 0 0 100%;
+                margin-bottom: 10px;
+            }
+            
+            .hamburger-container {
+                order: 2;
+            }
+            
+            .nav-right {
+                order: 3;
+                margin-left: auto;
+            }
+            
+            .auth-content {
+                padding: 1rem;
+            }
+            
+            .auth-tabs {
+                flex-direction: column;
+            }
+            
+            .auth-tab {
+                padding: 12px;
+            }
+        }
+        
+        .close-auth {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-color);
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .close-auth:hover {
+            background: var(--body-bg);
+        }
     </style>
 </head>
 <body>
@@ -542,15 +920,29 @@
                 <div class="hamburger-bar"></div>
             </div>
         </div>
-
         <div class="logo-container">
             <a href="#" class="logo" data-page="accueil">
-                <div class="logo-icon">N</div>
-                <span>Neuro-Stud</span>
+                <img src="mmmm/BackgroundEraser_20250916_101744363.png" width="150px" alt="Logo Neuro-Stud" class="logo-img">
+                <span></span>
             </a>
         </div>
 
-        <div>
+        <div class="nav-right">
+            <div class="user-menu">
+                <button class="main-login-btn" id="mainLoginBtn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Connexion</span>
+                </button>
+                <div class="user-dropdown" id="userDropdown">
+                    <div class="user-dropdown-item" id="loginBtn">
+                        <i class="fas fa-sign-in-alt"></i> Se connecter
+                    </div>
+                    <div class="user-dropdown-item" id="registerBtn">
+                        <i class="fas fa-user-plus"></i> S'inscrire
+                    </div>
+                </div>
+            </div>
+
             <button class="theme-toggle" id="themeToggle">
                 <i class="fas fa-moon"></i>
             </button>
@@ -608,6 +1000,243 @@
         </div>
     </div>
 
+    <!-- Overlay de connexion -->
+    <div class="auth-overlay" id="authOverlay">
+        <div class="auth-content">
+            <button class="close-auth" id="closeAuth">×</button>
+            <h2 class="page-title">Connexion / Inscription</h2>
+            
+            <div class="auth-tabs">
+                <div class="auth-tab active" data-tab="login">Connexion</div>
+                <div class="auth-tab" data-tab="register">Inscription</div>
+            </div>
+            
+            <!-- Formulaire de connexion -->
+            <div id="loginForm" class="auth-form active">
+                <div class="form-group">
+                    <label class="form-label">Type de compte</label>
+                    <select class="form-select" id="loginAccountType">
+                        <option value="student">Élève</option>
+                        <option value="parent">Parent</option>
+                        <option value="visitor">Visiteur</option>
+                        <option value="school">École</option>
+                    </select>
+                </div>
+                
+                <!-- Connexion élève -->
+                <div id="studentLogin" class="account-login">
+                    <div class="form-group">
+                        <label class="form-label">Matricule</label>
+                        <input type="text" class="form-input" id="studentMatricule" placeholder="Votre matricule">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Mot de passe</label>
+                        <input type="password" class="form-input" id="studentPassword" placeholder="Votre mot de passe">
+                    </div>
+                    <div class="form-group">
+                        <a class="form-link" id="studentForgotPassword">Mot de passe oublié ?</a>
+                    </div>
+                </div>
+                
+                <!-- Connexion parent -->
+                <div id="parentLogin" class="account-login" style="display: none;">
+                    <div class="form-group">
+                        <label class="form-label">Email ou téléphone</label>
+                        <input type="text" class="form-input" id="parentLoginId" placeholder="Email ou numéro de téléphone">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Mot de passe</label>
+                        <input type="password" class="form-input" id="parentPassword" placeholder="Votre mot de passe">
+                    </div>
+                    <div class="form-group">
+                        <a class="form-link" id="parentForgotPassword">Mot de passe oublié ?</a>
+                    </div>
+                </div>
+                
+                <!-- Connexion visiteur -->
+                <div id="visitorLogin" class="account-login" style="display: none;">
+                    <div class="form-group">
+                        <label class="form-label">Email ou téléphone</label>
+                        <input type="text" class="form-input" id="visitorLoginId" placeholder="Email ou numéro de téléphone">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Mot de passe</label>
+                        <input type="password" class="form-input" id="visitorPassword" placeholder="Votre mot de passe">
+                    </div>
+                    <div class="form-group">
+                        <a class="form-link" id="visitorForgotPassword">Mot de passe oublié ?</a>
+                    </div>
+                </div>
+                
+                <!-- Connexion école -->
+                <div id="schoolLogin" class="account-login" style="display: none;">
+                    <div class="form-group">
+                        <label class="form-label">Matricule de l'école</label>
+                        <input type="text" class="form-input" id="schoolMatricule" placeholder="Matricule de l'école">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Mot de passe</label>
+                        <input type="password" class="form-input" id="schoolPassword" placeholder="Mot de passe de l'école">
+                    </div>
+                    <div class="form-group">
+                        <a class="form-link" id="schoolForgotPassword">Problème de connexion ?</a>
+                    </div>
+                </div>
+                
+                <button class="auth-btn" id="loginSubmit">Se connecter</button>
+            </div>
+            
+            <!-- Formulaire d'inscription -->
+            <div id="registerForm" class="auth-form">
+                <div class="form-group">
+                    <label class="form-label">Type de compte</label>
+                    <select class="form-select" id="registerAccountType">
+                        <option value="student">Élève</option>
+                        <option value="parent">Parent</option>
+                        <option value="visitor">Visiteur</option>
+                        <option value="school">École</option>
+                    </select>
+                </div>
+                
+                <!-- Inscription élève -->
+                <div id="studentRegister" class="account-register">
+                    <div class="form-group">
+                        <label class="form-label">Matricule fourni par l'école</label>
+                        <input type="text" class="form-input" id="studentRegisterMatricule" placeholder="Votre matricule">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" id="studentEmail" placeholder="Votre email">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Téléphone</label>
+                        <input type="tel" class="form-input" id="studentPhone" placeholder="Votre numéro de téléphone">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Mot de passe</label>
+                        <input type="password" class="form-input" id="studentRegisterPassword" placeholder="Créez un mot de passe">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Confirmer le mot de passe</label>
+                        <input type="password" class="form-input" id="studentConfirmPassword" placeholder="Confirmez votre mot de passe">
+                    </div>
+                </div>
+                
+                <!-- Inscription parent -->
+                <div id="parentRegister" class="account-register" style="display: none;">
+                    <div class="form-group">
+                        <label class="form-label">ID de votre enfant</label>
+                        <input type="text" class="form-input" id="childId" placeholder="ID de votre enfant">
+                        <button class="add-child-btn" id="addChildBtn">Ajouter un autre enfant</button>
+                    </div>
+                    <div id="childrenList"></div>
+                    <div class="form-group">
+                        <label class="form-label">Nom complet</label>
+                        <input type="text" class="form-input" id="parentName" placeholder="Votre nom complet">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" id="parentEmail" placeholder="Votre email">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Téléphone</label>
+                        <input type="tel" class="form-input" id="parentPhone" placeholder="Votre numéro de téléphone">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Mot de passe</label>
+                        <input type="password" class="form-input" id="parentRegisterPassword" placeholder="Créez un mot de passe">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Confirmer le mot de passe</label>
+                        <input type="password" class="form-input" id="parentConfirmPassword" placeholder="Confirmez votre mot de passe">
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" class="form-checkbox" id="parentFusionOption">
+                        <label class="form-checkbox-label" for="parentFusionOption">Activer l'option fusion pour utiliser plusieurs comptes simultanément</label>
+                    </div>
+                </div>
+                
+                <!-- Inscription visiteur -->
+                <div id="visitorRegister" class="account-register" style="display: none;">
+                    <div class="form-group">
+                        <label class="form-label">Nom complet</label>
+                        <input type="text" class="form-input" id="visitorName" placeholder="Votre nom complet">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" id="visitorEmail" placeholder="Votre email">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Téléphone</label>
+                        <input type="tel" class="form-input" id="visitorPhone" placeholder="Votre numéro de téléphone">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Type de pièce d'identité</label>
+                        <select class="form-select" id="visitorIdType">
+                            <option value="carte_electeur">Carte d'électeur</option>
+                            <option value="passeport">Passeport</option>
+                            <option value="cni">Carte nationale d'identité</option>
+                            <option value="autre">Autre</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Numéro de la pièce</label>
+                        <input type="text" class="form-input" id="visitorIdNumber" placeholder="Numéro de votre pièce d'identité">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Mot de passe</label>
+                        <input type="password" class="form-input" id="visitorRegisterPassword" placeholder="Créez un mot de passe">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Confirmer le mot de passe</label>
+                        <input type="password" class="form-input" id="visitorConfirmPassword" placeholder="Confirmez votre mot de passe">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Niveau d'accès souhaité</label>
+                        <select class="form-select" id="visitorAccessLevel">
+                            <option value="premium">Premium (50% des droits)</option>
+                            <option value="gold">Gold (100% des droits)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Inscription école -->
+                <div id="schoolRegister" class="account-register" style="display: none;">
+                    <div class="form-group">
+                        <label class="form-label">Matricule de l'école</label>
+                        <input type="text" class="form-input" id="schoolRegisterMatricule" placeholder="Matricule fourni par l'administration">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Nom de l'école</label>
+                        <input type="text" class="form-input" id="schoolName" placeholder="Nom officiel de l'école">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email de contact</label>
+                        <input type="email" class="form-input" id="schoolEmail" placeholder="Email de l'école">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Téléphone</label>
+                        <input type="tel" class="form-input" id="schoolPhone" placeholder="Numéro de téléphone de l'école">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Mot de passe</label>
+                        <input type="password" class="form-input" id="schoolRegisterPassword" placeholder="Créez un mot de passe">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Confirmer le mot de passe</label>
+                        <input type="password" class="form-input" id="schoolConfirmPassword" placeholder="Confirmez votre mot de passe">
+                    </div>
+                </div>
+                
+                <button class="auth-btn" id="registerSubmit">S'inscrire</button>
+                
+                <div class="form-footer">
+                    En vous inscrivant, vous acceptez nos <a class="form-link">Conditions d'utilisation</a> et notre <a class="form-link">Politique de confidentialité</a>.
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Main Container -->
     <div class="container">
         <!-- Page: Accueil -->
@@ -616,18 +1245,18 @@
                 <h1 class="page-title animate">Bienvenue sur Neuro-Stud</h1>
                 
                 <div class="content-section animate delay-1">
-                    <p style="text-align: center; margin-bottom: 2rem;">Vous êtes connecté avec succès.</p>
+                    <p style="text-align: center; margin-bottom: 2rem;">Plateforme éducative pour suivre la scolarité de vos enfants</p>
                     
                     <div style="text-align: center; margin-bottom: 1rem;">
-                        <a href="#" class="btn" data-page="provinces">
-                            <i class="fas fa-map-marked-alt"></i>
-                            Accéder aux différentes provinces
+                        <a href="#" class="btn" id="showAuthBtn">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Se connecter pour accéder aux fonctionnalités
                         </a>
                     </div>
                 </div>
 
                 <!-- Quick Actions -->
-                <h2 style="margin-bottom: 1.5rem;" class="animate delay-2">Accès rapide</h2>
+                <h2 style="margin-bottom: 1.5rem;" class="animate delay-2">Fonctionnalités disponibles après connexion</h2>
                 
                 <div class="card-grid">
                     <div class="card animate delay-2">
@@ -637,7 +1266,7 @@
                         </div>
                         <div class="card-body">
                             <p class="card-text">Accédez aux informations de l'école de votre enfant.</p>
-                            <a href="#" class="btn btn-sm" data-page="ecoles">
+                            <a href="#" class="btn btn-sm" data-page="connexion">
                                 <i class="fas fa-arrow-right"></i>
                                 Voir les écoles
                             </a>
@@ -651,7 +1280,7 @@
                         </div>
                         <div class="card-body">
                             <p class="card-text">Consultez les résultats et progrès de votre enfant.</p>
-                            <a href="#" class="btn btn-sm" data-page="resultats">
+                            <a href="#" class="btn btn-sm" data-page="connexion">
                                 <i class="fas fa-arrow-right"></i>
                                 Voir les résultats
                             </a>
@@ -665,7 +1294,7 @@
                         </div>
                         <div class="card-body">
                             <p class="card-text">Découvrez les activités scolaires et extrascolaires.</p>
-                            <a href="#" class="btn btn-sm" data-page="activites">
+                            <a href="#" class="btn btn-sm" data-page="connexion">
                                 <i class="fas fa-arrow-right"></i>
                                 Voir les activités
                             </a>
@@ -675,54 +1304,20 @@
             </div>
         </div>
 
+        <!-- Les autres pages (Avis, Activités, Classement, etc.) restent identiques mais avec redirection vers la page de connexion -->
         <!-- Page: Avis -->
         <div class="page-content" id="avis">
             <div class="main-content">
                 <h1 class="page-title animate">Avis</h1>
                 
                 <div class="content-section animate delay-1">
-                    <div class="card-grid">
-                        <div class="card">
-                            <div class="card-header">
-                                <i class="fas fa-poll"></i>
-                                <h3 class="card-title">Sondages</h3>
-                            </div>
-                            <div class="card-body">
-                                <p class="card-text">Participez aux sondages de l'établissement.</p>
-                                <a href="#" class="btn btn-sm">
-                                    <i class="fas fa-arrow-right"></i>
-                                    Voir les sondages
-                                </a>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <div class="card-header">
-                                <i class="fas fa-comment"></i>
-                                <h3 class="card-title">Je m'exprime</h3>
-                            </div>
-                            <div class="card-body">
-                                <p class="card-text">Exprimez-vous sur différents sujets.</p>
-                                <a href="#" class="btn btn-sm">
-                                    <i class="fas fa-arrow-right"></i>
-                                    Donner mon avis
-                                </a>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <div class="card-header">
-                                <i class="fas fa-exclamation-circle"></i>
-                                <h3 class="card-title">Dénonciations</h3>
-                            </div>
-                            <div class="card-body">
-                                <p class="card-text">Signalez des problèmes en toute confidentialité.</p>
-                                <a href="#" class="btn btn-sm">
-                                    <i class="fas fa-arrow-right"></i>
-                                    Faire une dénonciation
-                                </a>
-                            </div>
-                        </div>
+                    <p style="text-align: center; margin-bottom: 2rem;">Connectez-vous pour accéder à cette section</p>
+                    
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <a href="#" class="btn" id="showAuthBtn2">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Se connecter
+                        </a>
                     </div>
                     
                     <div style="text-align: center; margin-top: 2rem;">
@@ -741,62 +1336,13 @@
                 <h1 class="page-title animate">Activités</h1>
                 
                 <div class="content-section animate delay-1">
-                    <div class="card-grid">
-                        <div class="card">
-                            <div class="card-header">
-                                <i class="fas fa-tasks"></i>
-                                <h3 class="card-title">Tâches hebdomadaires</h3>
-                            </div>
-                            <div class="card-body">
-                                <p class="card-text">Consultez les tâches à effectuer cette semaine.</p>
-                                <a href="#" class="btn btn-sm">
-                                    <i class="fas fa-arrow-right"></i>
-                                    Voir les tâches
-                                </a>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <div class="card-header">
-                                <i class="fas fa-book"></i>
-                                <h3 class="card-title">Exercices</h3>
-                            </div>
-                            <div class="card-body">
-                                <p class="card-text">Accédez aux exercices à faire à la maison.</p>
-                                <a href="#" class="btn btn-sm">
-                                    <i class="fas fa-arrow-right"></i>
-                                    Voir les exercices
-                                </a>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <div class="card-header">
-                                <i class="fas fa-bolt"></i>
-                                <h3 class="card-title">Flash school</h3>
-                            </div>
-                            <div class="card-body">
-                                <p class="card-text">Découvrez les activités Flash school.</p>
-                                <a href="#" class="btn btn-sm">
-                                    <i class="fas fa-arrow-right"></i>
-                                    Voir Flash school
-                                </a>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <div class="card-header">
-                                <i class="fas fa-lightbulb"></i>
-                                <h3 class="card-title">I know</h3>
-                            </div>
-                            <div class="card-body">
-                                <p class="card-text">Testez vos connaissances avec I know.</p>
-                                <a href="#" class="btn btn-sm">
-                                    <i class="fas fa-arrow-right"></i>
-                                    Participer
-                                </a>
-                            </div>
-                        </div>
+                    <p style="text-align: center; margin-bottom: 2rem;">Connectez-vous pour accéder à cette section</p>
+                    
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <a href="#" class="btn" id="showAuthBtn3">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Se connecter
+                        </a>
                     </div>
                     
                     <div style="text-align: center; margin-top: 2rem;">
@@ -815,48 +1361,13 @@
                 <h1 class="page-title animate">Classements</h1>
                 
                 <div class="content-section animate delay-1">
-                    <div class="card-grid">
-                        <div class="card">
-                            <div class="card-header">
-                                <i class="fas fa-laptop-code"></i>
-                                <h3 class="card-title">Geeks</h3>
-                            </div>
-                            <div class="card-body">
-                                <p class="card-text">Classement des élèves en informatique.</p>
-                                <a href="#" class="btn btn-sm">
-                                    <i class="fas fa-arrow-right"></i>
-                                    Voir le classement
-                                </a>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <div class="card-header">
-                                <i class="fas fa-graduation-cap"></i>
-                                <h3 class="card-title">Experts</h3>
-                            </div>
-                            <div class="card-body">
-                                <p class="card-text">Classement des meilleurs élèves.</p>
-                                <a href="#" class="btn btn-sm">
-                                    <i class="fas fa-arrow-right"></i>
-                                    Voir le classement
-                                </a>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <div class="card-header">
-                                <i class="fas fa-school"></i>
-                                <h3 class="card-title">Best Schools</h3>
-                            </div>
-                            <div class="card-body">
-                                <p class="card-text">Classement des meilleures écoles.</p>
-                                <a href="#" class="btn btn-sm">
-                                    <i class="fas fa-arrow-right"></i>
-                                    Voir le classement
-                                </a>
-                            </div>
-                        </div>
+                    <p style="text-align: center; margin-bottom: 2rem;">Connectez-vous pour accéder à cette section</p>
+                    
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <a href="#" class="btn" id="showAuthBtn4">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Se connecter
+                        </a>
                     </div>
                     
                     <div style="text-align: center; margin-top: 2rem;">
@@ -875,48 +1386,13 @@
                 <h1 class="page-title animate">Notifications</h1>
                 
                 <div class="content-section animate delay-1">
-                    <div class="card-grid">
-                        <div class="card">
-                            <div class="card-header">
-                                <i class="fas fa-user-graduate"></i>
-                                <h3 class="card-title">Élève</h3>
-                            </div>
-                            <div class="card-body">
-                                <p class="card-text">Notifications concernant votre enfant.</p>
-                                <a href="#" class="btn btn-sm">
-                                    <i class="fas fa-arrow-right"></i>
-                                    Voir les notifications
-                                </a>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <div class="card-header">
-                                <i class="fas fa-school"></i>
-                                <h3 class="card-title">Établissement</h3>
-                            </div>
-                            <div class="card-body">
-                                <p class="card-text">Notifications de l'établissement scolaire.</p>
-                                <a href="#" class="btn btn-sm">
-                                    <i class="fas fa-arrow-right"></i>
-                                    Voir les notifications
-                                </a>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <div class="card-header">
-                                <i class="fas fa-info-circle"></i>
-                                <h3 class="card-title">Autres</h3>
-                            </div>
-                            <div class="card-body">
-                                <p class="card-text">Autres types de notifications.</p>
-                                <a href="#" class="btn btn-sm">
-                                    <i class="fas fa-arrow-right"></i>
-                                    Voir les notifications
-                                </a>
-                            </div>
-                        </div>
+                    <p style="text-align: center; margin-bottom: 2rem;">Connectez-vous pour accéder à cette section</p>
+                    
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <a href="#" class="btn" id="showAuthBtn5">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Se connecter
+                        </a>
                     </div>
                     
                     <div style="text-align: center; margin-top: 2rem;">
@@ -935,155 +1411,14 @@
                 <h1 class="page-title animate">Liste des provinces</h1>
                 
                 <div class="content-section animate delay-1">
-                    <p style="text-align: center; margin-bottom: 2rem;">Choisissez votre province</p>
-                    
-                    <div class="search-container">
-                        <input type="text" class="search-input" placeholder="Rechercher une province...">
-                        <button class="search-btn">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                    
-                    <div class="two-columns">
-                        <ul class="list-group">
-                            <li class="list-item"><a href="#" data-page="ecoles"><i class="fas fa-map-marker-alt"></i> Bas-Uele</a></li>
-                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Equateur</a></li>
-                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Haut-Katanga</a></li>
-                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Haut-Lomami</a></li>
-                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Haut-Uele</a></li>
-                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Ituri</a></li>
-                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Kasai</a></li>
-                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Kasai-Central</a></li>
-                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Kasai-Oriental</a></li>
-                            <li class="list-item"><a href="#" data-page="ecoles"><i class="fas fa-map-marker-alt"></i> Kinshasa</a></li>
-                        </ul>
-                        
-                        <ul class="list-group">
-                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Kongo Central</a></li>
-                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Kwango</a></li>
-                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Kwilu</a></li>
-                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Lomami</a></li>
-                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Lualaba</a></li>
-                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Mai-Ndombe</a></li>
-                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Maniema</a></li>
-                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Mongala</a></li>
-                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Nord-Kivu</a></li>
-                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Nord-Ubangi</a></li>
-                        </ul>
-                        
-                        <ul class="list-group">
-                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Sankuru</a></li>
-                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Sud-Kivu</a></li>
-                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Sud-Ubangi</a></li>
-                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Tanganyika</a></li>
-                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Tshopo</a></li>
-                            <li class="list-item"><a href="#"><i class="fas fa-map-marker-alt"></i> Tshuapa</a></li>
-                        </ul>
-                    </div>
+                    <p style="text-align: center; margin-bottom: 2rem;">Connectez-vous pour accéder à cette section</p>
                     
                     <div style="text-align: center; margin-top: 2rem;">
-                        <a href="#" class="back-link" data-page="accueil">
-                            <i class="fas fa-arrow-left"></i>
-                            Retour à l'accueil
+                        <a href="#" class="btn" id="showAuthBtn6">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Se connecter
                         </a>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Page: Écoles -->
-        <div class="page-content" id="ecoles">
-            <div class="main-content">
-                <h1 class="page-title animate">Choisissez une école</h1>
-                
-                <div class="content-section animate delay-1">
-                    <div class="search-container">
-                        <input type="text" class="search-input" placeholder="Rechercher une école...">
-                        <button class="search-btn">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                    
-                    <ul class="list-group">
-                        <li class="list-item"><a href="#" data-page="ecole1"><i class="fas fa-school"></i> École 1</a></li>
-                        <li class="list-item"><a href="#"><i class="fas fa-school"></i> École 2</a></li>
-                        <li class="list-item"><a href="#"><i class="fas fa-school"></i> École 3</a></li>
-                    </ul>
-                    
-                    <div style="text-align: center; margin-top: 2rem;">
-                        <a href="#" class="back-link" data-page="provinces">
-                            <i class="fas fa-arrow-left"></i>
-                            Retour aux provinces
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Page: École 1 -->
-        <div class="page-content" id="ecole1">
-            <div class="main-content">
-                <h1 class="page-title animate">École 1</h1>
-                
-                <div class="content-section animate delay-1">
-                    <h2>Mot de bienvenue</h2>
-                    <p>
-                        Bienvenue à l'école 1, un établissement dédié à l'excellence et au
-                        développement harmonieux de chaque élève. Nous sommes heureux de vous
-                        accueillir sur notre plateforme digitale.
-                    </p>
-                    
-                    <h2 style="margin-top: 2rem;">Communiqués récents</h2>
-                    <ul style="list-style-type: none;">
-                        <li style="margin: 1rem 0; padding: 1rem; background: var(--body-bg); border-radius: 8px;">
-                            <i class="fas fa-bullhorn" style="color: var(--primary); margin-right: 0.5rem;"></i>
-                            Rentrée scolaire fixée au 2 septembre 2025
-                        </li>
-                        <li style="margin: 1rem 0; padding: 1rem; background: var(--body-bg); border-radius: 8px;">
-                            <i class="fas fa-bullhorn" style="color: var(--primary); margin-right: 0.5rem;"></i>
-                            Réunion parents-professeurs le 15 octobre 2025
-                        </li>
-                    </ul>
-                    
-                    <div style="text-align: center; margin-top: 2rem;">
-                        <a href="#" class="btn" data-page="annees">
-                            <i class="fas fa-calendar-alt"></i>
-                            Accéder à l'année scolaire
-                        </a>
-                    </div>
-                    
-                    <div style="text-align: center; margin-top: 2rem;">
-                        <a href="#" class="back-link" data-page="ecoles">
-                            <i class="fas fa-arrow-left"></i>
-                            Retour aux écoles
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Page: Résultats -->
-        <div class="page-content" id="resultats">
-            <div class="main-content">
-                <h1 class="page-title animate">Résultats</h1>
-                
-                <div class="content-section animate delay-1">
-                    <p style="text-align: center; margin-bottom: 2rem;">Sélectionnez un élève pour voir ses résultats</p>
-                    
-                    <div class="search-container">
-                        <input type="text" class="search-input" placeholder="Rechercher un élève...">
-                        <button class="search-btn">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                    
-                    <ul class="list-group">
-                        <li class="list-item"><a href="#"><i class="fas fa-user-graduate"></i> Akoua Mariam</a></li>
-                        <li class="list-item"><a href="#"><i class="fas fa-user-graduate"></i> Diallo Mamadou</a></li>
-                        <li class="list-item"><a href="#"><i class="fas fa-user-graduate"></i> Fatou Fatou</a></li>
-                        <li class="list-item"><a href="#"><i class="fas fa-user-graduate"></i> Kone Awa</a></li>
-                        <li class="list-item"><a href="#"><i class="fas fa-user-graduate"></i> Ouattara Mike</a></li>
-                    </ul>
                     
                     <div style="text-align: center; margin-top: 2rem;">
                         <a href="#" class="back-link" data-page="accueil">
@@ -1108,7 +1443,7 @@
                             <i class="fas fa-times"></i>
                             Annuler
                         </a>
-                        <a href="#" class="btn">
+                        <a href="#" class="btn" id="logoutConfirm">
                             <i class="fas fa-sign-out-alt"></i>
                             Déconnexion
                         </a>
@@ -1119,6 +1454,10 @@
     </div>
 
     <script>
+        // Variables pour stocker les sélections
+        let currentUser = null;
+        let childrenIds = [];
+        
         // Theme Toggle Functionality
         const themeToggle = document.getElementById('themeToggle');
         const themeIcon = themeToggle.querySelector('i');
@@ -1178,19 +1517,33 @@
             }
         });
         
-        // Page Navigation
+        // Fonction pour afficher le tableau de connexion
+        function showAuthOverlay() {
+            document.getElementById('authOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Fonction pour cacher le tableau de connexion
+        function hideAuthOverlay() {
+            document.getElementById('authOverlay').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Page Navigation avec vérification d'authentification
         document.querySelectorAll('[data-page]').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 const pageId = link.getAttribute('data-page');
                 
-                // Hide all pages
-                document.querySelectorAll('.page-content').forEach(page => {
-                    page.classList.remove('active');
-                });
+                // Si l'utilisateur n'est pas connecté et essaie d'accéder à une page autre que l'accueil
+                if (!currentUser && pageId !== 'accueil') {
+                    // Afficher directement le tableau de connexion
+                    showAuthOverlay();
+                    return;
+                }
                 
-                // Show selected page
-                document.getElementById(pageId).classList.add('active');
+                // Afficher la page demandée
+                showPage(pageId);
                 
                 // Close menu if open
                 hamburgerMenu.classList.remove('active');
@@ -1200,6 +1553,60 @@
                 // Scroll to top
                 window.scrollTo(0, 0);
             });
+        });
+        
+        // Fonction pour afficher une page
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+        }
+        
+        // Boutons pour afficher le tableau de connexion
+        document.getElementById('showAuthBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            showAuthOverlay();
+        });
+        
+        document.getElementById('showAuthBtn2').addEventListener('click', (e) => {
+            e.preventDefault();
+            showAuthOverlay();
+        });
+        
+        document.getElementById('showAuthBtn3').addEventListener('click', (e) => {
+            e.preventDefault();
+            showAuthOverlay();
+        });
+        
+        document.getElementById('showAuthBtn4').addEventListener('click', (e) => {
+            e.preventDefault();
+            showAuthOverlay();
+        });
+        
+        document.getElementById('showAuthBtn5').addEventListener('click', (e) => {
+            e.preventDefault();
+            showAuthOverlay();
+        });
+        
+        document.getElementById('showAuthBtn6').addEventListener('click', (e) => {
+            e.preventDefault();
+            showAuthOverlay();
+        });
+        
+        // Fermer le tableau de connexion
+        document.getElementById('closeAuth').addEventListener('click', () => {
+            hideAuthOverlay();
+        });
+        
+        // Fermer le tableau de connexion en cliquant à l'extérieur
+        document.getElementById('authOverlay').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('authOverlay')) {
+                hideAuthOverlay();
+            }
         });
         
         // Animation on scroll
@@ -1218,37 +1625,309 @@
                 el.style.visibility = 'hidden';
                 observer.observe(el);
             });
-            
-            // Search functionality
-            const searchInputs = document.querySelectorAll('.search-input');
-            const searchButtons = document.querySelectorAll('.search-btn');
-            
-            searchInputs.forEach((input, index) => {
-                input.addEventListener('input', () => {
-                    const value = input.value.toLowerCase();
-                    const listItems = input.closest('.content-section').querySelectorAll('.list-item');
-                    
-                    listItems.forEach(item => {
-                        const text = item.textContent.toLowerCase();
-                        if (text.includes(value)) {
-                            item.style.display = 'flex';
-                        } else {
-                            item.style.display = 'none';
-                        }
-                    });
-                });
+        });
+
+        // Gestion de l'authentification
+        
+        // Navigation par onglets
+        document.querySelectorAll('.auth-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                const tabId = this.getAttribute('data-tab');
                 
-                // Add event listener to corresponding search button
-                if (searchButtons[index]) {
-                    searchButtons[index].addEventListener('click', () => {
-                        input.focus();
-                    });
-                }
+                // Mettre à jour les onglets actifs
+                document.querySelectorAll('.auth-tab').forEach(t => {
+                    t.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // Afficher le formulaire correspondant
+                document.querySelectorAll('.auth-form').forEach(form => {
+                    form.classList.remove('active');
+                });
+                document.getElementById(tabId + 'Form').classList.add('active');
             });
         });
+        
+        // Changer le type de compte pour la connexion
+        document.getElementById('loginAccountType').addEventListener('change', function() {
+            const accountType = this.value;
+            
+            // Masquer tous les formulaires de connexion
+            document.querySelectorAll('.account-login').forEach(form => {
+                form.style.display = 'none';
+            });
+            
+            // Afficher le formulaire correspondant
+            document.getElementById(accountType + 'Login').style.display = 'block';
+        });
+        
+        // Changer le type de compte pour l'inscription
+        document.getElementById('registerAccountType').addEventListener('change', function() {
+            const accountType = this.value;
+            
+            // Masquer tous les formulaires d'inscription
+            document.querySelectorAll('.account-register').forEach(form => {
+                form.style.display = 'none';
+            });
+            
+            // Afficher le formulaire correspondant
+            document.getElementById(accountType + 'Register').style.display = 'block';
+        });
+        
+        // Ajouter un enfant pour l'inscription parent
+        document.getElementById('addChildBtn').addEventListener('click', function() {
+            const childId = document.getElementById('childId').value;
+            if (childId && !childrenIds.includes(childId)) {
+                childrenIds.push(childId);
+                updateChildrenList();
+                document.getElementById('childId').value = '';
+            }
+        });
+        
+        // Mettre à jour la liste des enfants
+        function updateChildrenList() {
+            const childrenList = document.getElementById('childrenList');
+            childrenList.innerHTML = '';
+            
+            childrenIds.forEach((id, index) => {
+                const childItem = document.createElement('div');
+                childItem.className = 'child-item';
+                childItem.innerHTML = `
+                    <span class="child-id">${id}</span>
+                    <span class="remove-child" data-index="${index}">✕</span>
+                `;
+                childrenList.appendChild(childItem);
+            });
+            
+            // Ajouter des écouteurs d'événements pour supprimer
+            document.querySelectorAll('.remove-child').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = parseInt(this.getAttribute('data-index'));
+                    childrenIds.splice(index, 1);
+                    updateChildrenList();
+                });
+            });
+        }
+        
+        // Soumission du formulaire de connexion
+        document.getElementById('loginSubmit').addEventListener('click', function() {
+            const accountType = document.getElementById('loginAccountType').value;
+            let isValid = true;
+            
+            // Validation basique
+            if (accountType === 'student') {
+                const matricule = document.getElementById('studentMatricule').value;
+                const password = document.getElementById('studentPassword').value;
+                
+                if (!matricule || !password) {
+                    isValid = false;
+                }
+            } else if (accountType === 'parent') {
+                const loginId = document.getElementById('parentLoginId').value;
+                const password = document.getElementById('parentPassword').value;
+                
+                if (!loginId || !password) {
+                    isValid = false;
+                }
+            } else if (accountType === 'visitor') {
+                const loginId = document.getElementById('visitorLoginId').value;
+                const password = document.getElementById('visitorPassword').value;
+                
+                if (!loginId || !password) {
+                    isValid = false;
+                }
+            } else if (accountType === 'school') {
+                const matricule = document.getElementById('schoolMatricule').value;
+                const password = document.getElementById('schoolPassword').value;
+                
+                if (!matricule || !password) {
+                    isValid = false;
+                }
+            }
+            
+            if (isValid) {
+                // Simuler une connexion réussie
+                currentUser = {
+                    type: accountType,
+                    name: getAccountTypeName(accountType) + ' Utilisateur'
+                };
+                
+                updateUserInterface();
+                hideAuthOverlay();
+                showPage('accueil');
+                alert('Connexion réussie !');
+            } else {
+                alert('Veuillez remplir tous les champs obligatoires.');
+            }
+        });
+        
+        // Soumission du formulaire d'inscription
+        document.getElementById('registerSubmit').addEventListener('click', function() {
+            const accountType = document.getElementById('registerAccountType').value;
+            let isValid = true;
+            
+            // Validation basique
+            if (accountType === 'student') {
+                const matricule = document.getElementById('studentRegisterMatricule').value;
+                const email = document.getElementById('studentEmail').value;
+                const password = document.getElementById('studentRegisterPassword').value;
+                const confirmPassword = document.getElementById('studentConfirmPassword').value;
+                
+                if (!matricule || !email || !password || !confirmPassword) {
+                    isValid = false;
+                } else if (password !== confirmPassword) {
+                    isValid = false;
+                    alert('Les mots de passe ne correspondent pas.');
+                }
+            } else if (accountType === 'parent') {
+                const name = document.getElementById('parentName').value;
+                const email = document.getElementById('parentEmail').value;
+                const password = document.getElementById('parentRegisterPassword').value;
+                const confirmPassword = document.getElementById('parentConfirmPassword').value;
+                
+                if (!name || !email || !password || !confirmPassword || childrenIds.length === 0) {
+                    isValid = false;
+                } else if (password !== confirmPassword) {
+                    isValid = false;
+                    alert('Les mots de passe ne correspondent pas.');
+                }
+            } else if (accountType === 'visitor') {
+                const name = document.getElementById('visitorName').value;
+                const email = document.getElementById('visitorEmail').value;
+                const idNumber = document.getElementById('visitorIdNumber').value;
+                const password = document.getElementById('visitorRegisterPassword').value;
+                const confirmPassword = document.getElementById('visitorConfirmPassword').value;
+                
+                if (!name || !email || !idNumber || !password || !confirmPassword) {
+                    isValid = false;
+                } else if (password !== confirmPassword) {
+                    isValid = false;
+                    alert('Les mots de passe ne correspondent pas.');
+                }
+            } else if (accountType === 'school') {
+                const matricule = document.getElementById('schoolRegisterMatricule').value;
+                const name = document.getElementById('schoolName').value;
+                const email = document.getElementById('schoolEmail').value;
+                const password = document.getElementById('schoolRegisterPassword').value;
+                const confirmPassword = document.getElementById('schoolConfirmPassword').value;
+                
+                if (!matricule || !name || !email || !password || !confirmPassword) {
+                    isValid = false;
+                } else if (password !== confirmPassword) {
+                    isValid = false;
+                    alert('Les mots de passe ne correspondent pas.');
+                }
+            }
+            
+            if (isValid) {
+                // Simuler une inscription réussie
+                currentUser = {
+                    type: accountType,
+                    name: getAccountTypeName(accountType) + ' Utilisateur'
+                };
+                
+                updateUserInterface();
+                hideAuthOverlay();
+                showPage('accueil');
+                alert('Inscription réussie ! Vous êtes maintenant connecté.');
+            } else {
+                alert('Veuillez remplir tous les champs obligatoires correctement.');
+            }
+        });
+        
+        // Obtenir le nom du type de compte
+        function getAccountTypeName(type) {
+            const names = {
+                'student': 'Élève',
+                'parent': 'Parent',
+                'visitor': 'Visiteur',
+                'school': 'École'
+            };
+            
+            return names[type] || type;
+        }
+        
+        // Mettre à jour l'interface utilisateur après connexion
+        function updateUserInterface() {
+            const userMenuBtn = document.getElementById('mainLoginBtn');
+            const userDropdown = document.getElementById('userDropdown');
+            
+            if (currentUser) {
+                userMenuBtn.innerHTML = `<i class="fas fa-user"></i> ${currentUser.name} <span class="account-type-badge badge-${currentUser.type}">${getAccountTypeName(currentUser.type)}</span>`;
+                
+                // Mettre à jour le menu déroulant
+                userDropdown.innerHTML = `
+                    <div class="user-dropdown-item">
+                        <i class="fas fa-user-circle"></i> Mon profil
+                    </div>
+                    <div class="user-dropdown-item">
+                        <i class="fas fa-cog"></i> Paramètres
+                    </div>
+                    <div class="user-dropdown-divider"></div>
+                    <div class="user-dropdown-item" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i> Se déconnecter
+                    </div>
+                `;
+                
+                // Ajouter l'écouteur d'événement pour la déconnexion
+                document.getElementById('logoutBtn').addEventListener('click', function() {
+                    currentUser = null;
+                    updateUserInterface();
+                    showPage('accueil');
+                });
+            } else {
+                userMenuBtn.innerHTML = `<i class="fas fa-sign-in-alt"></i> <span>Connexion</span>`;
+                userDropdown.innerHTML = `
+                    <div class="user-dropdown-item" id="loginBtn">
+                        <i class="fas fa-sign-in-alt"></i> Se connecter
+                    </div>
+                    <div class="user-dropdown-item" id="registerBtn">
+                        <i class="fas fa-user-plus"></i> S'inscrire
+                    </div>
+                `;
+                
+                // Ajouter les écouteurs d'événements pour la connexion et l'inscription
+                document.getElementById('loginBtn').addEventListener('click', function() {
+                    showAuthOverlay();
+                    document.querySelector('.auth-tab[data-tab="login"]').click();
+                    userDropdown.classList.remove('show');
+                });
+                
+                document.getElementById('registerBtn').addEventListener('click', function() {
+                    showAuthOverlay();
+                    document.querySelector('.auth-tab[data-tab="register"]').click();
+                    userDropdown.classList.remove('show');
+                });
+            }
+        }
+        
+        // Gestion du menu utilisateur
+        document.getElementById('mainLoginBtn').addEventListener('click', function() {
+            if (currentUser) {
+                document.getElementById('userDropdown').classList.toggle('show');
+            } else {
+                showAuthOverlay();
+            }
+        });
+        
+        // Fermer le menu déroulant en cliquant à l'extérieur
+        window.addEventListener('click', function(event) {
+            if (!event.target.matches('#mainLoginBtn') && !event.target.closest('#mainLoginBtn')) {
+                document.getElementById('userDropdown').classList.remove('show');
+            }
+        });
+        
+        // Déconnexion
+        document.getElementById('logoutConfirm').addEventListener('click', function(e) {
+            e.preventDefault();
+            currentUser = null;
+            updateUserInterface();
+            showPage('accueil');
+            alert('Vous avez été déconnecté avec succès.');
+        });
+        
+        // Initialiser l'interface utilisateur
+        updateUserInterface();
     </script>
 </body>
 </html>
-    
-                    
-              
